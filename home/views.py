@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirect, get_object_or_404
 from django.http import Http404
-from home.models import Blog
+from home.models import Blog,Resume
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
@@ -104,7 +104,8 @@ def blogpost (request, slug):
         context = {'message': 'Blog post not found'}
         return render(request, '404.html', context, status=404)
 
-# def blogpost (request, slug):
-#     blog = Blog.objects.filter(slug=slug).first()
-#     context = {'blog': blog}
-#     return render(request, 'blogpost.html', context)
+
+
+def display_resume(request):
+    latest_resume = Resume.objects.latest('uploaded_at')
+    return render(request, 'resume.html', {'resume': latest_resume})
